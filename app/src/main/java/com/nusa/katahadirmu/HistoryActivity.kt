@@ -46,23 +46,11 @@ fun HistoryScreen() {
     // Ambil username dari SharedPreferences yang disimpan saat login
     val username = sharedPreferences.getString("username", "Wisnu") ?: "Wisnu"  // Default "Wisnu" jika tidak ada
 
-    // Fungsi untuk mengonversi tanggal string menjadi timestamp (Long)
-    fun parseTimestamp(dateStr: String): Long {
-        return try {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            val date = dateFormat.parse(dateStr)
-            date?.time ?: 0L
-        } catch (e: Exception) {
-            0L
-        }
-    }
-
-    // Urutkan absensi berdasarkan timestamp dari tanggal (yang terbaru di atas)
-    val sortedAbsensiList = absensiList.sortedWith(compareByDescending { absensi ->
+    // Urutkan absensi berdasarkan capturedImage secara alfabetis (descending)
+    val sortedAbsensiList = absensiList.sortedByDescending { absensi ->
         val absensiDetails = absensi.split("|")
-        val date = absensiDetails[2] // Ambil tanggal dari detail absensi
-        parseTimestamp(date)  // Ubah tanggal ke timestamp untuk pengurutan
-    })
+        absensiDetails.getOrNull(4) ?: "" // Ambil capturedImage dari detail absensi
+    }
 
     // Variabel untuk mengontrol tampilnya dialog
     var showDialog by remember { mutableStateOf(false) }
@@ -145,9 +133,9 @@ fun HistoryScreen() {
                         val absensiDetails = absensi.split("|")
                         val absensiCode = absensiDetails[0]
                         val status = "Berhasil☑"
-                        val date = absensiDetails[2]
-                        val time = absensiDetails[3]
-                        val capturedImage = absensiDetails[4]
+                        val date = absensiDetails.getOrNull(2) ?: ""
+                        val time = absensiDetails.getOrNull(3) ?: ""
+                        val capturedImage = absensiDetails.getOrNull(4) ?: ""
 
                         Surface(
                             modifier = Modifier
@@ -166,9 +154,12 @@ fun HistoryScreen() {
                                 Text("Nama : $username", fontSize = 16.sp, color = Color.Black)
                                 Text("Kode Absensi: $absensiCode", fontSize = 16.sp, color = Color.Black)
                                 Text("Status Kehadiran: $status", fontSize = 16.sp, color = Color.Black)
+                                Text("Tanggal Waktu Kehadiran: $date", fontSize = 14.sp, color = Color.Blue)
+                                Text("Pukul: $time", fontSize = 14.sp, color = Color.Blue
+                                )
 
                                 if (capturedImage.isNotEmpty()) {
-                                    Text(text = "$capturedImage", fontSize = 14.sp, color = Color.Gray)
+                                    Text(text = "Gambar berhasil diambil pada: $capturedImage", fontSize = 14.sp, color = Color.Gray)
                                 }
                             }
                         }
