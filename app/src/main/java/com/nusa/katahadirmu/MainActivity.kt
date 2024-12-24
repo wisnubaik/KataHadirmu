@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             KataHadirmuTheme {
                 LoginScreen { username, password ->
-                    if (username == "mge" && password == "123456") {
+                    if (username == "aaa" && password == "aaa") {
                         // Simpan username ke SharedPreferences
                         val sharedPreferences = getSharedPreferences("AbsensiPrefs", Context.MODE_PRIVATE)
                         with(sharedPreferences.edit()) {
