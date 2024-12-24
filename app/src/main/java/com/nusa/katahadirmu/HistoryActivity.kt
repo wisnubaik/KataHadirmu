@@ -121,12 +121,18 @@ fun HistoryScreen() {
             ) {
                 if (sortedAbsensiList.isEmpty()) {
                     item {
-                        Text(
-                            text = "Tidak Ada Presensi",
-                            fontSize = 18.sp,
-                            color = Color.Gray,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 300.dp), // Margin agar teks sedikit lebih ke bawah
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Tidak Ada Kehadiran",
+                                fontSize = 18.sp,
+                                color = Color.Gray
+                            )
+                        }
                     }
                 } else {
                     items(sortedAbsensiList) { absensi ->
@@ -198,3 +204,4 @@ fun HistoryScreen() {
         }
     }
 }
+

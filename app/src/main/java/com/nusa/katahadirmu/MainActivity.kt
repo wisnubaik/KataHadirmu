@@ -1,5 +1,6 @@
 package com.nusa.katahadirmu
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -42,7 +43,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             KataHadirmuTheme {
                 LoginScreen { username, password ->
-                    if (username == "Wisnu" && password == "22032005") {
+                    if (username == "mge" && password == "123456") {
+                        // Simpan username ke SharedPreferences
+                        val sharedPreferences = getSharedPreferences("AbsensiPrefs", Context.MODE_PRIVATE)
+                        with(sharedPreferences.edit()) {
+                            putString("username", username)
+                            apply()
+                        }
                         // Beralih ke halaman AbsensiActivity setelah login berhasil
                         val intent = Intent(this, AbsensiActivity::class.java)
                         startActivity(intent)
